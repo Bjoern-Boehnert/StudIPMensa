@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bboehnert.studipmensa.network.ConnectionHelper;
-import com.bboehnert.studipmensa.network.iOnDataFetched;
+import com.bboehnert.studipmensa.network.OnDataFetched;
 
-public class MainActivity extends AppCompatActivity implements iOnDataFetched {
+public class MainActivity extends AppCompatActivity implements OnDataFetched {
 
     // Controls
     private EditText seminarTokenText;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements iOnDataFetched {
     }
 
     @Override
-    public void setDataInPageWithResult(String output) {
+    public void setData(String output) {
 
         if (output == null) {
             // Connection Fehler oder Falsche Route

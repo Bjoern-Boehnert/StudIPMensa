@@ -4,14 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -23,13 +16,13 @@ public final class ConnectionHelper {
 
     public final static void downloadJsonContent(String address,
                                                  String cookieValue,
-                                                 iOnDataFetched delegate) {
+                                                 OnDataFetched delegate) {
 
         TaskRunner asyncTask = new TaskRunner();
         asyncTask.executeAsync(new NetworkTask(delegate, address, cookieValue));
     }
 
-    // Checking wether the network is connected
+    // Prüfen ob der Nutzer mit dem Internet vernbunden ist
     public final static boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
@@ -40,16 +33,21 @@ public final class ConnectionHelper {
         private final Handler handler = new Handler(Looper.getMainLooper());
         private final Executor executor = Executors.newCachedThreadPool();
 
-        public <R> void executeAsync(CustomCallable<R> callable) {
+        private <R> void executeAsync(CustomCallable<R> callable) {
             try {
+
+                // UI setzen für den Progressbar
                 callable.setUiForLoading();
-                executor.execute(new RunnableTask<R>(handler, callable));
+
+                // Ausführen des neuen Thread
+                executor.execute(new RunnableTask<>(handler, callable));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        public static class RunnableTask<R> implements Runnable {
+        private static class RunnableTask<R> implements Runnable {
             private final Handler handler;
             private final CustomCallable<R> callable;
 
@@ -65,12 +63,11 @@ public final class ConnectionHelper {
                     handler.post(new RunnableTaskForHandler(callable, result));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    ;
                 }
             }
         }
 
-        public static class RunnableTaskForHandler<R> implements Runnable {
+        private static class RunnableTaskForHandler<R> implements Runnable {
 
             private CustomCallable<R> callable;
             private R result;

@@ -1,9 +1,9 @@
 package com.bboehnert.studipmensa.network;
 
-public interface iOnDataFetched {
+public interface OnDataFetched {
     void showProgressBar();
 
     void hideProgressBar();
 
-    void setDataInPageWithResult(String result);
+    void setData(String result);
 }

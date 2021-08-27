@@ -9,20 +9,20 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class NetworkTask extends BaseTask<String> {
+class NetworkTask implements CustomCallable<String> {
 
-    private final iOnDataFetched listener;
+    private final OnDataFetched listener;
     private final String address;
     private final String cookieValue;
 
-    public NetworkTask(iOnDataFetched onDataFetchedListener, String address, String cookieValue) {
+    public NetworkTask(OnDataFetched onDataFetchedListener, String address, String cookieValue) {
         this.listener = onDataFetchedListener;
         this.address = address;
         this.cookieValue = cookieValue;
     }
 
     @Override
-    public String call() throws Exception {
+    public String call() {
         return downloadJSON(address, cookieValue);
     }
 
@@ -33,11 +33,11 @@ public class NetworkTask extends BaseTask<String> {
 
     @Override
     public void setDataAfterLoading(String result) {
-        listener.setDataInPageWithResult(result);
+        listener.setData(result);
         listener.hideProgressBar();
     }
 
-    private String downloadJSON(String address, String cookievalue) {
+    private String downloadJSON(String address, String cookieValue) {
 
         HttpURLConnection connection = null;
         BufferedReader buffredReader = null;
@@ -48,7 +48,7 @@ public class NetworkTask extends BaseTask<String> {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty(
                     "Cookie",
-                    String.format("Seminar_Session=%s;", cookievalue));
+                    String.format("Seminar_Session=%s;", cookieValue));
 
             // Connection aufbauen
             connection.connect();
