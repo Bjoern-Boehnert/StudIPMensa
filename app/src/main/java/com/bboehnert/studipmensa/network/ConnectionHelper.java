@@ -2,7 +2,8 @@ package com.bboehnert.studipmensa.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -11,6 +12,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public final class ConnectionHelper {
 
@@ -20,10 +23,10 @@ public final class ConnectionHelper {
 
     public final static void downloadJsonContent(String address,
                                                  String cookieValue,
-                                                 com.bboehnert.studipmensa.network.AsyncResponse delegate) {
+                                                 iOnDataFetched delegate) {
 
-        JSONNetworkOperation asyncTask = new JSONNetworkOperation(delegate);
-        asyncTask.execute(address, cookieValue);
+        TaskRunner asyncTask = new TaskRunner();
+        asyncTask.executeAsync(new NetworkTask(delegate, address, cookieValue));
     }
 
     // Checking wether the network is connected
@@ -32,71 +35,55 @@ public final class ConnectionHelper {
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
-    private static class JSONNetworkOperation extends AsyncTask<String, Double, String> {
+    private static class TaskRunner {
 
-        private com.bboehnert.studipmensa.network.AsyncResponse delegate;
+        private final Handler handler = new Handler(Looper.getMainLooper());
+        private final Executor executor = Executors.newCachedThreadPool();
 
-        public JSONNetworkOperation(com.bboehnert.studipmensa.network.AsyncResponse delegate) {
-            this.delegate = delegate;
-        }
-
-        protected void onPreExecute() {
-            delegate.showProgressDialog();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            HttpURLConnection connection = null;
-            BufferedReader buffredReader = null;
-
+        public <R> void executeAsync(CustomCallable<R> callable) {
             try {
-                URL url = new URL(strings[0]);
-
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty(
-                        "Cookie",
-                        String.format("Seminar_Session=%s;", strings[1]));
-
-                // Connection aufbauen
-                connection.connect();
-
-                InputStream stream = connection.getInputStream();
-                buffredReader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-                String line;
-                // Solange Zeilen vorhanden sind aus dem Buffer schreiben
-                while ((line = buffredReader.readLine()) != null) {
-                    buffer.append(line + "\n");
-                    Log.d("Response: ", "> " + line);
-                }
-
-                return buffer.toString();
-
+                callable.setUiForLoading();
+                executor.execute(new RunnableTask<R>(handler, callable));
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
+            }
+        }
+
+        public static class RunnableTask<R> implements Runnable {
+            private final Handler handler;
+            private final CustomCallable<R> callable;
+
+            public RunnableTask(Handler handler, CustomCallable<R> callable) {
+                this.handler = handler;
+                this.callable = callable;
+            }
+
+            @Override
+            public void run() {
                 try {
-                    if (buffredReader != null) {
-                        buffredReader.close();
-                    }
-                } catch (IOException e) {
+                    final R result = callable.call();
+                    handler.post(new RunnableTaskForHandler(callable, result));
+                } catch (Exception e) {
                     e.printStackTrace();
+                    ;
                 }
             }
-            return null;
-
         }
 
-        @Override
-        protected void onPostExecute(String jsonObject) {
-            delegate.closeProgressDialog();
-            delegate.processFinish(jsonObject);
-        }
+        public static class RunnableTaskForHandler<R> implements Runnable {
 
+            private CustomCallable<R> callable;
+            private R result;
+
+            public RunnableTaskForHandler(CustomCallable<R> callable, R result) {
+                this.callable = callable;
+                this.result = result;
+            }
+
+            @Override
+            public void run() {
+                callable.setDataAfterLoading(result);
+            }
+        }
     }
 }

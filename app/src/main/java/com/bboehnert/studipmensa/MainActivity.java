@@ -9,12 +9,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.bboehnert.studipmensa.network.AsyncResponse;
-import com.bboehnert.studipmensa.network.ConnectionHelper;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements AsyncResponse {
+import com.bboehnert.studipmensa.network.ConnectionHelper;
+import com.bboehnert.studipmensa.network.iOnDataFetched;
+
+public class MainActivity extends AppCompatActivity implements iOnDataFetched {
 
     // Controls
     private EditText seminarTokenText;
@@ -44,39 +44,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
     }
 
-    @Override
-    public void processFinish(String output) {
-
-        if (output == null) {
-            // Connection Fehler oder Falsche Route
-            errorMessageText.setText("Seminar Cookie ist falsch!\nBitte erneut eingeben");
-            return;
-        }
-
-        // Cookie in Shared Preferences abspeichern
-        pref.setSeminarSession(seminarTokenText.getText().toString());
-
-        // Errortext zurücksetzen
-        errorMessageText.setText(null);
-
-        // Erfolgreiche Verbindung - Daten anzeigen
-        Intent intent = new Intent(MainActivity.this, FoodActivity.class);
-        intent.putExtra("jsonString", output);
-        startActivity(intent);
-    }
-
-    @Override
-    public void closeProgressDialog() {
-        if (progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void showProgressDialog() {
-        progressDialog.show();
-    }
-
     public void onLogin(View view) {
         if (!ConnectionHelper.isNetworkConnected(this)) {
             errorMessageText.setText("Internet nicht verbunden");
@@ -100,5 +67,39 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.info);
         dialog.show();
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void setDataInPageWithResult(String output) {
+
+        if (output == null) {
+            // Connection Fehler oder Falsche Route
+            errorMessageText.setText("Seminar Cookie ist falsch!\nBitte erneut eingeben");
+            return;
+        }
+
+        // Cookie in Shared Preferences abspeichern
+        pref.setSeminarSession(seminarTokenText.getText().toString());
+
+        // Errortext zurücksetzen
+        errorMessageText.setText(null);
+
+        // Erfolgreiche Verbindung - Daten anzeigen
+        Intent intent = new Intent(MainActivity.this, FoodActivity.class);
+        intent.putExtra("jsonString", output);
+        startActivity(intent);
+
     }
 }
