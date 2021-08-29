@@ -13,7 +13,7 @@ import java.util.Map;
 
 public final class MensaHelper {
 
-    public final static List<com.bboehnert.studipmensa.entity.FoodLocation> getFoodList(JSONObject json) throws JSONException {
+    public static List<FoodLocation> getFoodList(JSONObject json) throws JSONException {
 
         // Menu als Top-Layer entfernen
         JSONObject menu = json.getJSONObject("menu");

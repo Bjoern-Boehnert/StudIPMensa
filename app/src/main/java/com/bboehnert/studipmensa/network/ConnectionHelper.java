@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -14,18 +15,23 @@ public final class ConnectionHelper {
     public static final String MENSA_Address = API_BASE_Address + "mensa/today";
     public static final String MENSA_Tomorrow_Address = API_BASE_Address + "mensa/tomorrow";
 
-    public final static void downloadJsonContent(String address,
-                                                 String cookieValue,
-                                                 OnDataFetched delegate) {
+    public static void downloadJsonContent(String address,
+                                           String cookieValue,
+                                           OnDataFetched delegate) {
 
         TaskRunner asyncTask = new TaskRunner();
         asyncTask.executeAsync(new NetworkTask(delegate, address, cookieValue));
     }
 
     // Prüfen ob der Nutzer mit dem Internet vernbunden ist
-    public final static boolean isNetworkConnected(Context context) {
+    public static boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+    // Liefert die Mensadresse für ein bestimmten Tag
+    public static String getMensaPlanAddress(Date date) {
+        return API_BASE_Address + "mensa/" + date.getTime();
     }
 
     private static class TaskRunner {

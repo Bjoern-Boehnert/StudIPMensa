@@ -1,78 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:layout_margin="20dp"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:textColor="@color/black"
-        android:id="@+id/headerText"
+    <EditText
+        android:id="@+id/seminarTokenText"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@id/headerText"
+        android:layout_marginTop="40dp"
+        android:hint="Seminar_Cookie eingeben..."
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="32"
+        android:singleLine="true"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="StudIP Mensa"
-        android:textAlignment="center"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:layout_below="@id/daySelection"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="helpButtonClick"
+            android:text="\u24D8 Info"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onLogin"
+            android:text="Login"
+            android:textSize="40sp"
+            style="?android:attr/buttonBarButtonStyle" />
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/daySelection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radioButtonLabel"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/foodTodayRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:minHeight="48dp"
+            android:text="Heute"
+            android:textSize="35sp" />
+
+        <RadioButton
+            android:id="@+id/foodTomorrowRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="Morgen"
+            android:textSize="35sp" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/radioButtonLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seminarTokenText"
+        android:text="Mensaplan für: "
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/errorMessageText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
+        android:layout_below="@id/buttonContainer"
         android:textColor="@color/red"
-        android:textSize="20sp" />
+        android:textSize="25sp"
+        tools:text="Error text" />
 
-    <EditText
-        android:id="@+id/seminarTokenText"
+
+    <TextView
+        android:id="@+id/headerText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Seminar_Cookie eingeben..."
-        android:maxLength="32"
-        android:minHeight="80dp"
-        android:singleLine="true" />
+        android:layout_marginBottom="40dp"
+        android:text="StudIP Mensa"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onLogin"
-        android:text="Login"
-        android:textSize="25sp" />
 
-    <RadioGroup
-        android:layout_margin="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <RadioButton
-            android:id="@+id/foodTodayRadio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:minHeight="48dp"
-            android:text="Mensaplan: Heute"
-            android:textSize="20sp" />
-
-        <RadioButton
-            android:id="@+id/foodTomorrowRadio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Mensaplan: Morgen"
-            android:textSize="20sp" />
-    </RadioGroup>
-
-    <Button
-        android:background="@android:color/transparent"
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="\u24D8 Info"
-        android:onClick="helpButtonClieck"
-        android:textSize="50sp"/>
-
-</LinearLayout>
+</RelativeLayout>

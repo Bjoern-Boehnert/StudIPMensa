@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements OnDataFetched {
                 this);
     }
 
-    public void helpButtonClieck(View view) {
+    public void helpButtonClick(View view) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.info);
         dialog.show();
