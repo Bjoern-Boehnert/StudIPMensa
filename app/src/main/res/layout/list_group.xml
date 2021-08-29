@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@color/cardview_shadow_end_color">
 
     <TextView
+        android:textColor="@color/black"
+        android:id="@+id/list_group"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:id="@+id/list_parent"
-        android:textSize="20sp"
+        android:layout_marginStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:gravity="center_vertical"
         android:textStyle="bold"
-        android:gravity="fill"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
+        tools:text="Group item" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -6,10 +6,10 @@
     android:gravity="center"
     android:layout_margin="20dp"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".MainActivity">
 
     <TextView
+        android:textColor="@color/black"
         android:id="@+id/headerText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,14 +17,6 @@
         android:textAlignment="center"
         android:textSize="50sp"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/seminarTokenTextLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Geben Sie den Seminar_Cookie ein:"
-        android:textAlignment="center"
-        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/errorMessageText"
@@ -38,14 +30,14 @@
         android:id="@+id/seminarTokenText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Cookie eingeben..."
+        android:hint="Seminar_Cookie eingeben..."
         android:maxLength="32"
         android:minHeight="80dp"
         android:singleLine="true" />
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onLogin"
         android:text="Login"

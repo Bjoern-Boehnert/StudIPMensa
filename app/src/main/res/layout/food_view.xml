@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     android:layout_margin="20dp"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".FoodActivity">
 
     <TextView
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:id="@+id/LabelText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

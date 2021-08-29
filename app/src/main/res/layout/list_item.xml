@@ -1,23 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
+
+    <ImageView
+        android:id="@+id/list_item_image"
+        android:layout_width="?android:attr/listPreferredItemHeight"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        tools:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/list_child_label"
-        android:layout_width="match_parent"
+        android:id="@+id/list_item_label"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="30dp"
-        android:textSize="14sp"
-        android:textStyle="italic" />
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/list_item_image"
+        android:textColor="@color/black"
+        tools:text="Label" />
 
     <TextView
-        android:id="@+id/list_child"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/listPreferredItemHeightSmall"
-        android:gravity="fill"
-        android:paddingLeft="30dp"
-        android:textSize="18sp" />
+        android:id="@+id/list_item_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/list_item_image"
+        android:layout_below="@id/list_item_label"
+        tools:text="Body" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/list_item_body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/list_item_image"
+        android:layout_below="@id/list_item_body"
+        tools:text="Body2" />
+
+</RelativeLayout>

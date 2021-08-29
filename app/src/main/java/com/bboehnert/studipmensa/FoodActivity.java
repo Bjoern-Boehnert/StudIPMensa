@@ -31,12 +31,9 @@ public class FoodActivity extends Activity {
 
         foodListView = findViewById(R.id.foodListView);
 
-
-
-
         TextView timeStamp = findViewById(R.id.timeStamp);
         String dateString = new SimpleDateFormat(
-                "yyyy-MM-dd: HH-mm",
+                "dd.MM.yyyy HH:mm",
                 Locale.GERMANY).format(Calendar.getInstance().getTime());
 
         timeStamp.setText(String.format("DL: %s", dateString));

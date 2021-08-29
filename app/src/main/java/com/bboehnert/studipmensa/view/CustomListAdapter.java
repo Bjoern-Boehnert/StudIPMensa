@@ -15,8 +15,8 @@ import java.util.List;
 
 public class CustomListAdapter extends BaseExpandableListAdapter {
 
-    private List<FoodLocation> listData;
-    private Context context;
+    private final List<FoodLocation> listData;
+    private final Context context;
 
     public CustomListAdapter(Context context, List<FoodLocation> listData) {
         this.context = context;
@@ -83,7 +83,7 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.list_group, null);
         }
 
-        TextView textView = convertView.findViewById(R.id.list_parent);
+        TextView textView = convertView.findViewById(R.id.list_group);
         textView.setText(location.getName());
         return convertView;
 
@@ -105,10 +105,16 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
 
         }
 
-        TextView textView = convertView.findViewById(R.id.list_child);
-        textView.setText(foodItem.getName());
-        TextView labelView = convertView.findViewById(R.id.list_child_label);
-        labelView.setText(foodItem.getTypeName());
+        TextView typeView = convertView.findViewById(R.id.list_item_label);
+        typeView.setText(foodItem.getTypeName());
+
+        TextView nameView = convertView.findViewById(R.id.list_item_body);
+        nameView.setText(foodItem.getName());
+
+        TextView priceView = convertView.findViewById(R.id.list_item_body2);
+
+        String priceTag = foodItem.getPrice() + " €";
+        priceView.setText(priceTag);
 
         return convertView;
     }

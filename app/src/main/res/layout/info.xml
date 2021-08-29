@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <ImageView
+        android:adjustViewBounds="true"
         android:id="@+id/infoImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,6 +15,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/info_text" />
+        android:text="@string/info_text"
+        android:textAlignment="viewStart" />
 
 </LinearLayout>
