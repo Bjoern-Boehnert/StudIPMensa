@@ -35,7 +35,7 @@ public final class MensaHelper {
         return list;
     }
 
-    private final static Map<String, String> getMensaIds() {
+    private static Map<String, String> getMensaIds() {
         Map<String, String> mensaIds = new HashMap<>();
 
         mensaIds.put("1", "Uhlhornsweg - Pasta & Veggie/Vegan");
@@ -46,7 +46,7 @@ public final class MensaHelper {
     }
 
     // Notwendig, weil GSON nicht mit Leerzeichen umgehen kann
-    public final static String parseKeyNames(String result) {
+    public static String parseKeyNames(String result) {
 
         result = result.replace("Hauptgericht", "mainDish");
         result = result.replace("Beilagen", "extras");
@@ -56,5 +56,10 @@ public final class MensaHelper {
         result = result.replace("Veggie & Vegan", "veggie");
 
         return result;
+    }
+
+    // Wenn die Mensa kein Angebot bietet für den Tag zeigt die API "{"menu":false}"
+    public static boolean hasMensaPlan(String result) {
+        return !result.equals("{\"menu\":false}");
     }
 }

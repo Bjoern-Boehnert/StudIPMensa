@@ -1,0 +1,9 @@
+# Kalenderansicht für Mensa? - Ja!
+Der StudIP-Mensaplan in der REST-API representiert genau einen Tag in Millisekunden: Timestamp YYYY-mm-dd 00:00:00(HH:mm:ss) - YYYY-mm-dd 23:59:59
+Das bedeutet, dass zu jedem Tag der Mensaplan abgefragt werden kann, indem das Datum in Millisekunden dem Mensa API Link angehangen wird.
+
+Für bestimmte Tage kann die REST Route "https://elearning.uni-oldenburg.de/api.php/mensa/" + [Timestamp] gewählt werden.
+Beispiel: https://elearning.uni-oldenburg.de/api.php/mensa/1630281604 representiert 2021-8-30 00:00:00 und ist eine gültige Route.
+Umgerechnet mit https://www.epochconverter.com/.
+
+Die Anfrage liefert auch die gleichen Ergebnisse wieder, wenn die Zeit noch in der Zeitspanne von 24 Stunden(< 86.400ms = 24h * 60m * 60s) liegt.

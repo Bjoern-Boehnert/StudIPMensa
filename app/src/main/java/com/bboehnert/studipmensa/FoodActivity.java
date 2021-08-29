@@ -13,42 +13,50 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.Nullable;
 
 public class FoodActivity extends Activity {
 
     private ExpandableListView foodListView;
-    private TextView timeStamp;
-
-    private com.bboehnert.studipmensa.SharedPreferencesHelper pref;
-    private List<FoodLocation> foodLocationsList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.food_view);
-        timeStamp = findViewById(R.id.timeStamp);
-
-        Date time = Calendar.getInstance().getTime();
-        String dateString = new SimpleDateFormat("yyyy-MM-dd: HH-mm").format(time);
-        timeStamp.setText("DL: " + dateString);
-
 
         foodListView = findViewById(R.id.foodListView);
-        pref = new com.bboehnert.studipmensa.SharedPreferencesHelper(this);
+
+
+
+
+        TextView timeStamp = findViewById(R.id.timeStamp);
+        String dateString = new SimpleDateFormat(
+                "yyyy-MM-dd: HH-mm",
+                Locale.GERMANY).format(Calendar.getInstance().getTime());
+
+        timeStamp.setText(String.format("DL: %s", dateString));
+
         String result = getIntent().getStringExtra("jsonString");
 
         try {
-            foodLocationsList = getFoodList(result);
+            List<FoodLocation> foodLocationsList = null;
+            if (MensaHelper.hasMensaPlan(result)) {
+                foodLocationsList = getFoodList(result);
+            } else {
+                // Leere Liste anzeigen
+                foodLocationsList = new ArrayList<>();
+            }
+
+            displayFood(foodLocationsList);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        displayFood(foodLocationsList);
     }
 
     private void displayFood(List<FoodLocation> foodLocationsList) {
@@ -56,6 +64,7 @@ public class FoodActivity extends Activity {
         foodListView.setAdapter(customListAdapter);
     }
 
+    // Parsen des JSON-Strings
     private List<FoodLocation> getFoodList(String result) throws JSONException {
         JSONObject jsonObject = new JSONObject(MensaHelper.parseKeyNames(result));
         return MensaHelper.getFoodList(jsonObject);
