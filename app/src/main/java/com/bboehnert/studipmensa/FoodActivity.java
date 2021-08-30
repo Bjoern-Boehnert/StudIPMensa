@@ -1,11 +1,13 @@
 package com.bboehnert.studipmensa;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bboehnert.studipmensa.view.CustomListAdapter;
+import com.bboehnert.studipmensa.view.ExampleDialog;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -14,8 +16,9 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class FoodActivity extends Activity {
+public class FoodActivity extends AppCompatActivity implements ExampleDialog.DialogListener {
 
     private ExpandableListView foodListView;
 
@@ -43,5 +46,28 @@ public class FoodActivity extends Activity {
     private void populateListView(List<Contract.Model> foodLocationsList) {
         CustomListAdapter customListAdapter = new CustomListAdapter(this, foodLocationsList);
         foodListView.setAdapter(customListAdapter);
+        foodListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent,
+                                        View v,
+                                        int groupPosition,
+                                        int childPosition,
+                                        long id) {
+
+                openDialog();
+                return true;
+            }
+        });
+    }
+
+    private void openDialog() {
+        ExampleDialog dialog = new ExampleDialog();
+        dialog.show(getSupportFragmentManager(), "Example Dialog");
+    }
+
+    @Override
+    public void applyText(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }
