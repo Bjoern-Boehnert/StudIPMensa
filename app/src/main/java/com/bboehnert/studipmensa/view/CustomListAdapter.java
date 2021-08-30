@@ -7,22 +7,21 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.bboehnert.studipmensa.Contract;
 import com.bboehnert.studipmensa.R;
-import com.bboehnert.studipmensa.entity.FoodItem;
-import com.bboehnert.studipmensa.entity.FoodLocation;
+import com.bboehnert.studipmensa.entity.FoodItemDisplayable;
 
 import java.util.List;
 
 public class CustomListAdapter extends BaseExpandableListAdapter {
 
-    private final List<FoodLocation> listData;
+    private final List<Contract.Model> listData;
     private final Context context;
 
-    public CustomListAdapter(Context context, List<FoodLocation> listData) {
+    public CustomListAdapter(Context context, List<Contract.Model> listData) {
         this.context = context;
         this.listData = listData;
     }
-
 
     @Override
     public int getGroupCount() {
@@ -35,15 +34,15 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public FoodLocation getGroup(int groupPosition) {
+    public Contract.Model getGroup(int groupPosition) {
         return this.listData.get(groupPosition);
     }
 
     @Override
-    public FoodItem getChild(int groupPosition,
+    public FoodItemDisplayable getChild(int groupPosition,
                              int childPosition) {
 
-        List<FoodItem> foodList = this.listData.get(groupPosition).getAllFood();
+        List<FoodItemDisplayable> foodList = this.listData.get(groupPosition).getAllFood();
 
         if (foodList == null) {
             return null;
@@ -75,7 +74,7 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
                              View convertView,
                              ViewGroup parent) {
 
-        FoodLocation location = getGroup(groupPosition);
+        Contract.Model location = getGroup(groupPosition);
         if (convertView == null) {
 
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(
@@ -96,7 +95,7 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
                              View convertView,
                              ViewGroup parent) {
 
-        FoodItem foodItem = getChild(groupPosition, childPosition);
+        FoodItemDisplayable foodItem = getChild(groupPosition, childPosition);
         if (convertView == null) {
 
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(

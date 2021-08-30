@@ -1,9 +1,9 @@
 package com.bboehnert.studipmensa.network;
 
 public interface OnDataFetched {
-    void showProgressBar();
+    void showProgress();
 
-    void hideProgressBar();
+    void hideProgress();
 
     void setData(String result);
 }

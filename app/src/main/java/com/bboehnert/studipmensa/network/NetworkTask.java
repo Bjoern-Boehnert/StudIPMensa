@@ -28,13 +28,13 @@ class NetworkTask implements CustomCallable<String> {
 
     @Override
     public void setUiForLoading() {
-        listener.showProgressBar();
+        listener.showProgress();
     }
 
     @Override
     public void setDataAfterLoading(String result) {
         listener.setData(result);
-        listener.hideProgressBar();
+        listener.hideProgress();
     }
 
     private String downloadJSON(String address, String cookieValue) {

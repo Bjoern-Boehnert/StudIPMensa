@@ -1,11 +1,13 @@
 package com.bboehnert.studipmensa.entity;
 
+import com.bboehnert.studipmensa.Contract;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodLocation {
+class FoodLocation implements Contract.Model {
     private String name;
-    private List<FoodItem> totalFoodItems = null;
+    private List<FoodItemDisplayable> totalFoodItems = null;
 
     private List<MainDish> mainDish;
     private List<Extra> extras;
@@ -14,39 +16,18 @@ public class FoodLocation {
     private List<Desert> dessert;
     private List<Veggie> veggie;
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public List<MainDish> getMainDish() {
-        return mainDish;
-    }
-
-    public List<Extra> getExtras() {
-        return extras;
-    }
-
-    public List<Vegetable> getVegetables() {
-        return vegetables;
-    }
-
-    public List<Salad> getSalad() {
-        return salad;
-    }
-
-    public List<Desert> getDessert() {
-        return dessert;
-    }
-
-    public List<Veggie> getVeggie() {
-        return veggie;
-    }
-
-    public List<FoodItem> getAllFood() {
+    @Override
+    public List<FoodItemDisplayable> getAllFood() {
 
         if (totalFoodItems != null) {
             return totalFoodItems;
@@ -67,6 +48,4 @@ public class FoodLocation {
         if (list == null) return;
         totalFoodItems.addAll(list);
     }
-
-
 }

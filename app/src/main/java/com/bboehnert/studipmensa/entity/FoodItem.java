@@ -1,24 +1,28 @@
 package com.bboehnert.studipmensa.entity;
 
-public abstract class FoodItem {
+abstract class FoodItem implements FoodItemDisplayable {
 
     // Für Googles GSON müssen die Json tags wie in dem original-File heißen
     private String name;
     private double price;
     private String[] attributes;
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public double getPrice() {
         return price;
     }
 
+    @Override
     public String[] getAttributes() {
         return attributes;
     }
 
+    @Override
     public abstract String getTypeName();
 }
 

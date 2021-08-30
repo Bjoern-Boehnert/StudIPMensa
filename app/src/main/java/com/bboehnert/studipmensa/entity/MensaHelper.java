@@ -1,5 +1,6 @@
 package com.bboehnert.studipmensa.entity;
 
+import com.bboehnert.studipmensa.Contract;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -13,21 +14,21 @@ import java.util.Map;
 
 public final class MensaHelper {
 
-    public static List<FoodLocation> getFoodList(JSONObject json) throws JSONException {
+    public static List<Contract.Model> getFoodList(JSONObject json) throws JSONException {
 
         // Menu als Top-Layer entfernen
         JSONObject menu = json.getJSONObject("menu");
         Gson gson = new Gson();
-        List<com.bboehnert.studipmensa.entity.FoodLocation> list = new ArrayList<>();
+        List<Contract.Model> list = new ArrayList<>();
 
         Iterator<String> it = menu.keys();
         while (it.hasNext()) {
 
             String key = it.next();
             menu.getJSONObject(key);
-            com.bboehnert.studipmensa.entity.FoodLocation location = gson.fromJson(
+            Contract.Model location = gson.fromJson(
                     menu.getJSONObject(key).toString(),
-                    com.bboehnert.studipmensa.entity.FoodLocation.class);
+                    FoodLocation.class);
 
             location.setName(getMensaIds().get(key));
             list.add(location);
