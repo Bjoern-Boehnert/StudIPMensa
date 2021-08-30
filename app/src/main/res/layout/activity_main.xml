@@ -6,19 +6,6 @@
     android:layout_margin="20dp"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/seminarTokenText"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@id/headerText"
-        android:layout_marginTop="40dp"
-        android:hint="Seminar_Cookie eingeben..."
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:maxLength="32"
-        android:singleLine="true"
-        android:textSize="20sp" />
-
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
@@ -40,15 +27,16 @@
 
         <Button
             android:id="@+id/loginButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onLogin"
             android:text="Login"
-            android:textSize="40sp"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:textSize="40sp" />
 
     </LinearLayout>
+
 
     <RadioGroup
         android:id="@+id/daySelection"
@@ -77,23 +65,13 @@
     </RadioGroup>
 
     <TextView
-        android:layout_marginTop="30dp"
         android:id="@+id/radioButtonLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/seminarTokenText"
+        android:layout_below="@id/seminarTokenTextLayout"
+        android:layout_marginTop="30dp"
         android:text="Mensaplan für: "
         android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/errorMessageText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/buttonContainer"
-        android:textColor="@color/red"
-        android:textSize="25sp"
-        tools:text="Error text" />
-
 
     <TextView
         android:id="@+id/headerText"
@@ -105,6 +83,28 @@
         android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/seminarTokenTextLayout"
+        errorEnabled="true"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@id/headerText"
+        android:layout_marginTop="40dp"
+        android:importantForAutofill="no">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/seminarTokenText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Seminar_Cookie eingeben..."
+            android:inputType="text"
+            android:maxLength="32"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </RelativeLayout>

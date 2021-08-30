@@ -5,24 +5,24 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.bboehnert.studipmensa.network.ConnectionHelper;
 import com.bboehnert.studipmensa.network.OnDataFetched;
+import com.google.android.material.textfield.TextInputEditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements OnDataFetched {
 
     // Controls
-    private EditText seminarTokenText;
-    private TextView errorMessageText;
+    private TextInputEditText seminarTokenText;
     private RadioButton tomorrow;
 
     private ProgressDialog progressDialog;
     private SharedPreferencesHelper pref;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements OnDataFetched {
         setContentView(R.layout.activity_main);
 
         tomorrow = findViewById(R.id.foodTomorrowRadio);
-        errorMessageText = findViewById(R.id.errorMessageText);
         seminarTokenText = findViewById(R.id.seminarTokenText);
 
         // Letzten Seminarschlüssel ins Textfeld eintragen
@@ -42,11 +41,16 @@ public class MainActivity extends AppCompatActivity implements OnDataFetched {
         progressDialog.setMessage("Bitte warten");
         progressDialog.setCancelable(false);
 
+        toast = Toast.makeText(
+                this,
+                "Internet nicht verbunden",
+                Toast.LENGTH_SHORT);
     }
 
     public void onLogin(View view) {
         if (!ConnectionHelper.isNetworkConnected(this)) {
-            errorMessageText.setText("Internet nicht verbunden");
+            toast.show();
+            seminarTokenText.setError(null);
             return;
         }
 
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements OnDataFetched {
 
         if (output == null) {
             // Connection Fehler oder Falsche Route
-            errorMessageText.setText("Seminar Cookie ist falsch!\nBitte erneut eingeben");
+            seminarTokenText.setError("Seminar Cookie ist falsch!\nBitte erneut eingeben");
             return;
         }
 
@@ -94,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnDataFetched {
         pref.setSeminarSession(seminarTokenText.getText().toString());
 
         // Errortext zurücksetzen
-        errorMessageText.setText(null);
+        seminarTokenText.setError(null);
 
         // Erfolgreiche Verbindung - Daten anzeigen
         Intent intent = new Intent(MainActivity.this, FoodActivity.class);
