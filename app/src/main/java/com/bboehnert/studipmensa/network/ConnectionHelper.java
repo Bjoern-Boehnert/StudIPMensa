@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import java.util.Date;
 import java.util.concurrent.Executor;
@@ -31,7 +32,8 @@ public final class ConnectionHelper {
 
     // Liefert die Mensadresse für ein bestimmten Tag
     public static String getMensaPlanAddress(Date date) {
-        return API_BASE_Address + "mensa/" + date.getTime();
+        Log.d("Message", API_BASE_Address + "mensa/" + date.getTime()/1000);
+        return API_BASE_Address + "mensa/" + date.getTime() / 1000;
     }
 
     private static class TaskRunner {
