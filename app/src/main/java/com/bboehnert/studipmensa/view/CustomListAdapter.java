@@ -116,6 +116,9 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
         String priceTag = foodItem.getPrice() + " €";
         priceView.setText(priceTag);
 
+        TextView symbolView = convertView.findViewById(R.id.list_item_symbol);
+        symbolView.setText(String.valueOf(foodItem.getTypeName().charAt(0)));
+
         return convertView;
     }
 

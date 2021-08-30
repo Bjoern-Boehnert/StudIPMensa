@@ -18,6 +18,7 @@
         android:textSize="50sp" />
 
     <TextView
+        tools:text="DL: Date"
         android:id="@+id/timeStamp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
         android:textStyle="bold" />
 
     <ExpandableListView
+        tools:listitem="@layout/list_item"
         android:scrollbars="none"
         android:id="@+id/foodListView"
         android:layout_width="match_parent"
