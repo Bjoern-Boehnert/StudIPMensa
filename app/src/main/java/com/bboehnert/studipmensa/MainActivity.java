@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         if (tomorrow.isChecked()) {
             address = ConnectionHelper.MENSA_Tomorrow_Address;
         } else {
+            // Ab 15 Uhr schaltet die API für Mensa/Today auf tomorrow, eventuell hier andere
+            // Variante verwenden
             address = ConnectionHelper.MENSA_Address;
         }
 

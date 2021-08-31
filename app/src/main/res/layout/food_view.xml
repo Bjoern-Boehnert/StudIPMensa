@@ -27,11 +27,10 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
-    <ExpandableListView
-        tools:listitem="@layout/list_item"
-        android:scrollbars="none"
-        android:id="@+id/foodListView"
+    <androidx.fragment.app.FragmentContainerView
+        android:name="com.bboehnert.studipmensa.view.FoodListViewFragment"
+        android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent"
+        tools:layout="@layout/expandablelist_fragment" />
 </LinearLayout>
