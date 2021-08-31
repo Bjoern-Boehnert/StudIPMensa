@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CustomListAdapter extends BaseExpandableListAdapter {
 
-    private final List<Contract.Model> listData;
+    private List<Contract.Model> listData;
     private final Context context;
 
     public CustomListAdapter(Context context, List<Contract.Model> listData) {
@@ -40,7 +40,7 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public FoodItemDisplayable getChild(int groupPosition,
-                             int childPosition) {
+                                        int childPosition) {
 
         List<FoodItemDisplayable> foodList = this.listData.get(groupPosition).getAllFood();
 
@@ -119,6 +119,16 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
         symbolView.setText(String.valueOf(foodItem.getTypeName().charAt(0)));
 
         return convertView;
+    }
+
+    public void setNewItems(List<Contract.Model> listData) {
+        // Inhalt leeren bei null
+        if (listData == null) {
+            this.listData.clear();
+        } else {
+            this.listData = listData;
+        }
+        notifyDataSetChanged();
     }
 
     @Override

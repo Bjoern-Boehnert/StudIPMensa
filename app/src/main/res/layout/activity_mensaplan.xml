@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    tools:context=".FoodActivity">
+
+    <TextView
+        android:id="@+id/LabelText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="StudIP Mensa"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/timeStamp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        tools:text="DL: Date" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:background="@android:color/transparent"
+            android:onClick="getPreviousDay"
+            android:layout_weight="0.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\u276e"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:layout_weight="0.8"
+            android:id="@+id/dateText"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mittwoch: 31.08.2021" />
+
+        <Button
+            android:background="@android:color/transparent"
+            android:onClick="getNextDay"
+            android:layout_weight="0.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\u276f"
+            android:textSize="30sp"/>
+
+    </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:name="com.bboehnert.studipmensa.view.FoodListViewFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_expandablelist" />
+
+</LinearLayout>

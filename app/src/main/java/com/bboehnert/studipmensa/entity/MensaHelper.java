@@ -61,6 +61,6 @@ public final class MensaHelper {
 
     // Wenn die Mensa kein Angebot bietet für den Tag zeigt die API "{"menu":false}"
     public static boolean hasMensaPlan(String result) {
-        return !result.equals("{\"menu\":false}");
+        return !result.startsWith("{\"menu\":false}");
     }
 }
