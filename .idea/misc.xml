@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/drawable/navigation_button_border.xml" value="0.3828125" />
         <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/activity_mensaplan.xml" value="0.33" />
         <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/expandablelist_fragment.xml" value="0.12407407407407407" />
         <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/food_view.xml" value="0.5" />
+        <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/fragment_expandablelist.xml" value="0.36666666666666664" />
         <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/fragment_noFood.xml" value="0.35462962962962963" />
         <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/fragment_nofood.xml" value="0.35462962962962963" />
         <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/info.xml" value="0.20153985507246377" />

@@ -6,6 +6,17 @@ abstract class FoodItem implements FoodItemDisplayable {
     private String name;
     private double price;
     private String[] attributes;
+    private boolean selected;
+
+    @Override
+    public void setSelected(boolean value) {
+        selected = value;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
 
     @Override
     public String getName() {

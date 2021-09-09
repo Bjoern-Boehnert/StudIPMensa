@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bboehnert.studipmensa.network.ConnectionHelper;
 import com.bboehnert.studipmensa.view.CustomListAdapter;
@@ -144,5 +145,10 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
         calender.add(Calendar.DATE, add);
         String url = ConnectionHelper.getMensaPlanAddress(calender.getTime());
         presenter.connect(url, pref.getSeminarSession());
+    }
+
+    public void getPrice(View view) {
+        String priceText = String.format("Preis: %s €", this.customListAdapter.getSelectionPrice());
+        Toast.makeText(this, priceText, Toast.LENGTH_SHORT).show();
     }
 }

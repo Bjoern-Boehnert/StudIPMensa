@@ -10,4 +10,8 @@ public interface FoodItemDisplayable extends Serializable {
     String[] getAttributes();
 
     String getTypeName();
+
+    void setSelected(boolean value);
+
+    boolean isSelected();
 }

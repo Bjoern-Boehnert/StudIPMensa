@@ -10,7 +10,7 @@
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/daySelection"
+        android:layout_below="@id/seminarTokenTextLayout"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
         android:gravity="bottom">
@@ -36,42 +36,6 @@
             android:textSize="40sp" />
 
     </LinearLayout>
-
-
-    <RadioGroup
-        android:id="@+id/daySelection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/radioButtonLabel"
-        android:orientation="vertical">
-
-        <RadioButton
-            android:id="@+id/foodTodayRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:minHeight="48dp"
-            android:text="Heute"
-            android:textSize="35sp" />
-
-        <RadioButton
-            android:id="@+id/foodTomorrowRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Morgen"
-            android:textSize="35sp" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/radioButtonLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/seminarTokenTextLayout"
-        android:layout_marginTop="30dp"
-        android:text="Mensaplan für: "
-        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/headerText"

@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.bboehnert.studipmensa.network.ConnectionHelper;
@@ -20,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 
     // Controls
     private TextInputEditText seminarTokenText;
-    private RadioButton tomorrow;
     private ProgressDialog progressDialog;
 
     private SharedPreferencesHelper pref;
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 
         presenter = new Presenter(this);
 
-        tomorrow = findViewById(R.id.foodTomorrowRadio);
         seminarTokenText = findViewById(R.id.seminarTokenText);
 
         pref = new SharedPreferencesHelper(this);
@@ -52,19 +49,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
             return;
         }
 
-        String address;
-        if (tomorrow.isChecked()) {
-            address = ConnectionHelper.MENSA_Tomorrow_Address;
-        } else {
-            // Ab 15 Uhr schaltet die API für Mensa/Today auf tomorrow, eventuell hier andere
-            // Variante verwenden
-            address = ConnectionHelper.MENSA_Address;
-        }
-
         if (seminarTokenText.getText() == null) {
             return;
         }
-        presenter.connect(address, seminarTokenText.getText().toString());
+        presenter.connect(ConnectionHelper.MENSA_Address, seminarTokenText.getText().toString());
     }
 
     public void helpButtonClick(View view) {
