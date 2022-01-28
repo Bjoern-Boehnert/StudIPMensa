@@ -8,22 +8,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 class NetworkTask implements CustomCallable<String> {
 
     private final OnDataFetched listener;
     private final String address;
-    private final String cookieValue;
+    private final String username;
+    private final String password;
 
-    public NetworkTask(OnDataFetched onDataFetchedListener, String address, String cookieValue) {
+    public NetworkTask(OnDataFetched onDataFetchedListener, String address, String username, String password) {
         this.listener = onDataFetchedListener;
         this.address = address;
-        this.cookieValue = cookieValue;
+        this.username = username;
+        this.password = password;
     }
 
     @Override
     public String call() {
-        return downloadJSON(address, cookieValue);
+        return downloadJSON(address, username, password);
     }
 
     @Override
@@ -37,7 +41,7 @@ class NetworkTask implements CustomCallable<String> {
         listener.hideProgress();
     }
 
-    private String downloadJSON(String address, String cookieValue) {
+    private String downloadJSON(String address, String username, String password) {
 
         HttpURLConnection connection = null;
         BufferedReader buffredReader = null;
@@ -46,9 +50,11 @@ class NetworkTask implements CustomCallable<String> {
             URL url = new URL(address);
 
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty(
-                    "Cookie",
-                    String.format("Seminar_Session=%s;", cookieValue));
+
+            // Auth Header
+            String auth = username + ":" + password;
+            String encoded = Base64.getEncoder().encodeToString((auth).getBytes(StandardCharsets.UTF_8));
+            connection.setRequestProperty("Authorization", "Basic " + encoded);
 
             // Connection aufbauen
             connection.connect();
@@ -56,15 +62,15 @@ class NetworkTask implements CustomCallable<String> {
             InputStream stream = connection.getInputStream();
             buffredReader = new BufferedReader(new InputStreamReader(stream));
 
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder builder = new StringBuilder();
             String line;
             // Solange Zeilen vorhanden sind aus dem Buffer schreiben
             while ((line = buffredReader.readLine()) != null) {
-                buffer.append(line + "\n");
+                builder.append(line).append("\n");
                 Log.d("Response: ", "> " + line);
             }
 
-            return buffer.toString();
+            return builder.toString();
 
         } catch (Exception e) {
             e.printStackTrace();

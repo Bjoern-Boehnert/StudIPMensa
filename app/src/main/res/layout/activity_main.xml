@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,17 +11,17 @@
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/seminarTokenTextLayout"
+        android:layout_below="@id/passwordTextLayout"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
         android:gravity="bottom">
 
         <Button
             android:id="@+id/button"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
             android:onClick="helpButtonClick"
             android:text="\u24D8 Info"
             android:textSize="40sp" />
@@ -50,25 +51,40 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/seminarTokenTextLayout"
-        errorEnabled="true"
+        android:id="@+id/usernameTextLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/headerText"
-        android:layout_marginTop="40dp"
-        android:importantForAutofill="no">
+        app:errorTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/seminarTokenText"
+            android:id="@+id/usernameText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Seminar_Cookie eingeben..."
+            android:layout_height="48dp"
+            android:hint="Benutzername eingeben..."
             android:inputType="text"
-            android:maxLength="32"
+            android:maxLength="10"
             android:singleLine="true"
             android:textSize="15sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/usernameTextLayout"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Passwort eingeben..."
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </RelativeLayout>

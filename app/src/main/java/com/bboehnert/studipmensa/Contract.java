@@ -8,7 +8,7 @@ import java.util.List;
 public interface Contract {
 
     interface Presenter {
-        void connect(String address, String seminarToken);
+        void connect(String address, String username, String password);
     }
 
     interface View {
@@ -24,7 +24,7 @@ public interface Contract {
 
         void hideProgressbar();
 
-        void saveSeminarCookie(String seminarSession);
+        void saveCredentials(String username, String password);
     }
 
     interface Model extends Serializable {

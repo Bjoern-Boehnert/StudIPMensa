@@ -18,7 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements Contract.View {
 
     // Controls
-    private TextInputEditText seminarTokenText;
+    private TextInputEditText usernameText;
+    private TextInputEditText passwordText;
     private ProgressDialog progressDialog;
 
     private SharedPreferencesHelper pref;
@@ -32,15 +33,16 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 
         presenter = new Presenter(this);
 
-        seminarTokenText = findViewById(R.id.seminarTokenText);
+        usernameText = findViewById(R.id.usernameText);
+        passwordText = findViewById(R.id.passwordText);
 
         pref = new SharedPreferencesHelper(this);
-        seminarTokenText.setText(pref.getSeminarSession());
+        usernameText.setText(pref.getUsername());
+        passwordText.setText(pref.getPassword());
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Bitte warten");
         progressDialog.setCancelable(false);
-
     }
 
     public void onLogin(View view) {
@@ -48,11 +50,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
             showToast("Internet nicht verbunden");
             return;
         }
+        // Eingabe validieren
 
-        if (seminarTokenText.getText() == null) {
-            return;
-        }
-        presenter.connect(ConnectionHelper.MENSA_Address, seminarTokenText.getText().toString());
+        presenter.connect(ConnectionHelper.MENSA_Address, usernameText.getText().toString(), passwordText.getText().toString());
     }
 
     public void helpButtonClick(View view) {
@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 
     @Override
     public void showOnNetworkError(String message) {
-        seminarTokenText.setError(message);
+        usernameText.setError(message);
+        passwordText.getText().clear();
     }
 
     @Override
@@ -99,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
     }
 
     @Override
-    public void saveSeminarCookie(String seminarSession) {
-        // Cookie in Shared Preferences abspeichern
-        pref.setSeminarSession(seminarSession);
+    public void saveCredentials(String username, String password) {
+        pref.setUsername(username);
+        pref.setPassword(password);
     }
 
     private void showToast(String message) {

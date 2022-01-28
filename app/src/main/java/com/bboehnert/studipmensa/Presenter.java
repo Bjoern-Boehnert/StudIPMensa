@@ -12,20 +12,22 @@ import java.util.List;
 public class Presenter implements Contract.Presenter, OnDataFetched {
 
     private Contract.View view;
-    private String seminarToken;
+    private String username;
+    private String password;
 
     public Presenter(Contract.View view) {
         this.view = view;
     }
 
     @Override
-    public void connect(String address, String seminarToken) {
-        //Todo: Prüfen auf kein Internet?
+    public void connect(String address, String username, String password) {
 
-        this.seminarToken = seminarToken;
+        this.password = password;
+        this.username = username;
 
         ConnectionHelper.downloadJsonContent(address,
-                seminarToken,
+                username,
+                password,
                 this);
     }
 
@@ -49,7 +51,7 @@ public class Presenter implements Contract.Presenter, OnDataFetched {
     public void setData(String result) {
         if (result == null) {
             // Connection Fehler oder Falsche Route
-            view.showOnNetworkError("Seminar Cookie ist falsch! Bitte erneut eingeben");
+            view.showOnNetworkError("Login Daten sind falsch!");
             return;
 
         } else if (!MensaHelper.hasMensaPlan(result)) {
@@ -66,8 +68,6 @@ public class Presenter implements Contract.Presenter, OnDataFetched {
             e.printStackTrace();
         }
 
-        view.saveSeminarCookie(seminarToken);
+        view.saveCredentials(username, password);
     }
-
-
 }

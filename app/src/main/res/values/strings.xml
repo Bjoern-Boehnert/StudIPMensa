@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">StudIPMensa</string>
-    <string name="last_seminar_session" />
-    <string name="info_text">Um die Mensa App nutzen zu können müssen Sie einen \'Seminar_Session\' Cookie eintragen. Dieser wird im Webbrowser abgespeichert, wenn Sie sich bei elearning.uni-oldenburg.de/ anmelden</string>
+    <string name="password">Passwort</string>
+    <string name="username">Benutzer</string>
+    <string name="info_text">Um die Mensa App nutzen zu können müssen Sie ihre Zugangsdaten für "elearning.uni-oldenburg.de" eintragen.</string>
 </resources>

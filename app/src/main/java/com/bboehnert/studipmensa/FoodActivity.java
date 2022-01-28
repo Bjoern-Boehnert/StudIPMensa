@@ -35,7 +35,7 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
 
     private List<Contract.Model> foodlist;
 
-    private Calendar calender = Calendar.getInstance();
+    private final Calendar calender = Calendar.getInstance();
     private CustomListAdapter customListAdapter;
     private TextView currentDate;
     private Contract.Presenter presenter;
@@ -53,6 +53,7 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
         Serializable result = getIntent().getSerializableExtra("foodList");
         foodlist = (List<Contract.Model>) result;
 
+        // Erstelle Download TimeStamp
         TextView timeStamp = findViewById(R.id.timeStamp);
         String dateText = new SimpleDateFormat(
                 "dd.MM.yyyy HH:mm",
@@ -86,7 +87,7 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
                 Locale.GERMANY).format(date);
     }
 
-    private void switchFragement(Fragment hide, Fragment show) {
+    private void switchFragment(Fragment hide, Fragment show) {
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .hide(hide)
@@ -108,7 +109,7 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
         currentDate.setText(formattedDate(calender.getTime()));
 
         // Fragement tauschen
-        switchFragement(noFoodFragement, foodlistFragment);
+        switchFragment(noFoodFragement, foodlistFragment);
     }
 
     @Override
@@ -118,7 +119,7 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
         currentDate.setText(formattedDate(calender.getTime()));
 
         // Lade Fragment "Kein Mensaplan"
-        switchFragement(foodlistFragment, noFoodFragement);
+        switchFragment(foodlistFragment, noFoodFragement);
     }
 
     @Override
@@ -138,13 +139,13 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
     }
 
     @Override
-    public void saveSeminarCookie(String seminarSession) {
+    public void saveCredentials(String username, String password) {
     }
 
     private void triggerDownloadRequest(int add) {
         calender.add(Calendar.DATE, add);
         String url = ConnectionHelper.getMensaPlanAddress(calender.getTime());
-        presenter.connect(url, pref.getSeminarSession());
+        presenter.connect(url, pref.getUsername(), pref.getPassword());
     }
 
     public void getPrice(View view) {

@@ -14,14 +14,14 @@ public final class ConnectionHelper {
 
     public static final String API_BASE_Address = "https://elearning.uni-oldenburg.de/api.php/";
     public static final String MENSA_Address = API_BASE_Address + "mensa/today";
-    public static final String MENSA_Tomorrow_Address = API_BASE_Address + "mensa/tomorrow";
 
     public static void downloadJsonContent(String address,
-                                           String cookieValue,
+                                           String username,
+                                           String password,
                                            OnDataFetched delegate) {
 
         TaskRunner asyncTask = new TaskRunner();
-        asyncTask.executeAsync(new NetworkTask(delegate, address, cookieValue));
+        asyncTask.executeAsync(new NetworkTask(delegate, address, username, password));
     }
 
     // Prüfen ob der Nutzer mit dem Internet vernbunden ist
@@ -68,7 +68,7 @@ public final class ConnectionHelper {
             public void run() {
                 try {
                     final R result = callable.call();
-                    handler.post(new RunnableTaskForHandler(callable, result));
+                    handler.post(new RunnableTaskForHandler<>(callable, result));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -77,8 +77,8 @@ public final class ConnectionHelper {
 
         private static class RunnableTaskForHandler<R> implements Runnable {
 
-            private CustomCallable<R> callable;
-            private R result;
+            private final CustomCallable<R> callable;
+            private final R result;
 
             public RunnableTaskForHandler(CustomCallable<R> callable, R result) {
                 this.callable = callable;
