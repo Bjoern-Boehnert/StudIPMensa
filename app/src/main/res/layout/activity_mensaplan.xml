@@ -8,7 +8,6 @@
     tools:context=".FoodActivity">
 
     <TextView
-        android:id="@+id/LabelText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="StudIP Mensa"
@@ -48,7 +47,7 @@
             android:id="@+id/dateText"
             android:textAlignment="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:hint="Mittwoch: 31.08.2021" />
 
         <Button

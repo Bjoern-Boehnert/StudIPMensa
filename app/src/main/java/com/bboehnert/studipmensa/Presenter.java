@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Presenter implements Contract.Presenter, OnDataFetched {
 
-    private Contract.View view;
+    private final Contract.View view;
     private String username;
     private String password;
 

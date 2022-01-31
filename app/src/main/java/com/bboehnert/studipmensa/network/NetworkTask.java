@@ -1,5 +1,6 @@
 package com.bboehnert.studipmensa.network;
 
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -9,7 +10,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 class NetworkTask implements CustomCallable<String> {
 
@@ -53,7 +53,7 @@ class NetworkTask implements CustomCallable<String> {
 
             // Auth Header
             String auth = username + ":" + password;
-            String encoded = Base64.getEncoder().encodeToString((auth).getBytes(StandardCharsets.UTF_8));
+            String encoded = Base64.encodeToString((auth).getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
             connection.setRequestProperty("Authorization", "Basic " + encoded);
 
             // Connection aufbauen
