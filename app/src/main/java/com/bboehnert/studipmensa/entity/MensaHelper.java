@@ -49,12 +49,15 @@ public final class MensaHelper {
     // Notwendig, weil GSON nicht mit Leerzeichen umgehen kann
     public static String parseKeyNames(String result) {
 
-        result = result.replace("Hauptgericht", "mainDish");
+        result = result.replace("Hauptgerichte", "mainDish");
+        result = result.replace("Suppen", "soup");
         result = result.replace("Beilagen", "extras");
         result = result.replace("Gemüse", "vegetables");
-        result = result.replace("Salat", "salad");
-        result = result.replace("Dessert", "dessert");
+        result = result.replace("Salate", "salad");
+        result = result.replace("Desserts", "dessert");
         result = result.replace("Veggie & Vegan", "veggie");
+        result = result.replace("Pasta", "pasta");
+        result = result.replace("Classic", "classic");
 
         return result;
     }

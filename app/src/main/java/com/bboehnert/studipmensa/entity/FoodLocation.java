@@ -15,6 +15,9 @@ class FoodLocation implements Contract.Model {
     private List<Salad> salad;
     private List<Desert> dessert;
     private List<Veggie> veggie;
+    private List<Classic> classic;
+    private List<Pasta> pasta;
+    private List<Soup> soup;
 
     @Override
     public void setName(String name) {
@@ -40,6 +43,9 @@ class FoodLocation implements Contract.Model {
         addFoodItems(salad);
         addFoodItems(dessert);
         addFoodItems(veggie);
+        addFoodItems(classic);
+        addFoodItems(pasta);
+        addFoodItems(soup);
 
         return totalFoodItems;
     }

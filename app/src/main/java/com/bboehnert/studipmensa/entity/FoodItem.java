@@ -49,7 +49,7 @@ class Extra extends FoodItem {
 
     @Override
     public String getTypeName() {
-        return "Beilagen";
+        return "Beilage";
     }
 }
 
@@ -82,5 +82,29 @@ class Veggie extends FoodItem {
     @Override
     public String getTypeName() {
         return "Veggie & Vegan";
+    }
+}
+
+class Soup extends FoodItem {
+
+    @Override
+    public String getTypeName() {
+        return "Suppe";
+    }
+}
+
+class Pasta extends FoodItem {
+
+    @Override
+    public String getTypeName() {
+        return "Pasta";
+    }
+}
+
+class Classic extends FoodItem {
+
+    @Override
+    public String getTypeName() {
+        return "Classic";
     }
 }
