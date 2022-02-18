@@ -14,6 +14,7 @@ public class Presenter implements Contract.Presenter, OnDataFetched {
     private final Contract.View view;
     private String username;
     private String password;
+    private LocalStorage storage;
 
     public Presenter(Contract.View view) {
         this.view = view;
@@ -29,6 +30,11 @@ public class Presenter implements Contract.Presenter, OnDataFetched {
                 username,
                 password,
                 this);
+    }
+
+    @Override
+    public void storeCredentials(LocalStorage storage) {
+        this.storage = storage;
     }
 
     // Parsen des JSON-Strings
@@ -53,8 +59,15 @@ public class Presenter implements Contract.Presenter, OnDataFetched {
             // Connection Fehler oder Falsche Route
             view.showOnNetworkError("Login Daten sind falsch!");
             return;
+        }
 
-        } else if (!MensaHelper.hasMensaPlan(result)) {
+        // Speichere Credentials bei erfolgreicher Anmeldung
+        if (storage.getPassword() == null || storage.getUsername() == null) {
+            storage.setUsername(username);
+            storage.setPassword(password);
+        }
+
+        if (!MensaHelper.hasMensaPlan(result)) {
             view.showNoMensaPlan("Kein Mensaplan für heute!");
             return;
         }
@@ -67,7 +80,5 @@ public class Presenter implements Contract.Presenter, OnDataFetched {
             view.showJSONParsingError(e.getMessage());
             e.printStackTrace();
         }
-
-        view.saveCredentials(username, password);
     }
 }

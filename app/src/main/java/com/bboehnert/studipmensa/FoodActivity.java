@@ -39,7 +39,7 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
     private CustomListAdapter customListAdapter;
     private TextView currentDate;
     private Contract.Presenter presenter;
-    private SharedPreferencesHelper pref;
+    private LocalStorage storage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +47,9 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
         setContentView(R.layout.activity_mensaplan);
 
         presenter = new Presenter(this);
-        pref = new SharedPreferencesHelper(this);
+        storage = new SharedPreferencesHelper(this);
+        presenter.storeCredentials(storage);
+
         currentDate = findViewById(R.id.dateText);
 
         Serializable result = getIntent().getSerializableExtra("foodList");
@@ -138,14 +140,10 @@ public class FoodActivity extends AppCompatActivity implements Contract.View {
     public void hideProgressbar() {
     }
 
-    @Override
-    public void saveCredentials(String username, String password) {
-    }
-
     private void triggerDownloadRequest(int add) {
         calender.add(Calendar.DATE, add);
         String url = ConnectionHelper.getMensaPlanAddress(calender.getTime());
-        presenter.connect(url, pref.getUsername(), pref.getPassword());
+        presenter.connect(url, storage.getUsername(), storage.getPassword());
     }
 
     public void getPrice(View view) {

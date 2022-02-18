@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
     private TextInputEditText passwordText;
     private ProgressDialog progressDialog;
 
-    private SharedPreferencesHelper pref;
-
     private Contract.Presenter presenter;
 
     @Override
@@ -32,13 +30,14 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         setContentView(R.layout.activity_main);
 
         presenter = new Presenter(this);
+        LocalStorage storage = new SharedPreferencesHelper(this);
+        presenter.storeCredentials(storage);
 
         usernameText = findViewById(R.id.usernameText);
         passwordText = findViewById(R.id.passwordText);
 
-        pref = new SharedPreferencesHelper(this);
-        usernameText.setText(pref.getUsername());
-        passwordText.setText(pref.getPassword());
+        usernameText.setText(storage.getUsername());
+        passwordText.setText(storage.getPassword());
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Bitte warten");
@@ -52,7 +51,11 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         }
         // Eingabe validieren
 
-        presenter.connect(ConnectionHelper.MENSA_Address, usernameText.getText().toString(), passwordText.getText().toString());
+        presenter.connect(
+                ConnectionHelper.MENSA_Address,
+                usernameText.getText().toString(),
+                passwordText.getText().toString()
+        );
     }
 
     public void helpButtonClick(View view) {
@@ -97,12 +100,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
         if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
-    }
-
-    @Override
-    public void saveCredentials(String username, String password) {
-        pref.setUsername(username);
-        pref.setPassword(password);
     }
 
     private void showToast(String message) {

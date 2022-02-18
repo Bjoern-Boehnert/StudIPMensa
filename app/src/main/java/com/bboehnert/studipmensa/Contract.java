@@ -9,6 +9,8 @@ public interface Contract {
 
     interface Presenter {
         void connect(String address, String username, String password);
+
+        void storeCredentials(LocalStorage storage);
     }
 
     interface View {
@@ -23,8 +25,6 @@ public interface Contract {
         void showProgressbar();
 
         void hideProgressbar();
-
-        void saveCredentials(String username, String password);
     }
 
     interface Model extends Serializable {
