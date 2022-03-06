@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
-import com.bboehnert.studipmensa.LoginResult;
 import com.bboehnert.studipmensa.R;
 import com.bboehnert.studipmensa.SharedPreferencesHelper;
 import com.bboehnert.studipmensa.network.ConnectionHelper;
@@ -67,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(LoginResult loginResult) {
                 progressDialog.dismiss();
-                // Auf Failure checken
                 if (loginResult.getResponseCode() == 200) {
                     // Erfolgreich angemeldet
                     loadMensaView();

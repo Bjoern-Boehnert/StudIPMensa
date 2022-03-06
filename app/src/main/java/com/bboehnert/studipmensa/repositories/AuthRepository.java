@@ -2,7 +2,7 @@ package com.bboehnert.studipmensa.repositories;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.bboehnert.studipmensa.LoginResult;
+import com.bboehnert.studipmensa.view.login.LoginResult;
 import com.bboehnert.studipmensa.SharedPreferencesHelper;
 import com.bboehnert.studipmensa.StudipAPI;
 import com.bboehnert.studipmensa.models.user.User;
@@ -49,8 +49,7 @@ public class AuthRepository {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-//                throw new FetchFromAPIException(t.getMessage());
-                // Bzw. Fehlermeldung?
+            mutableLiveData.setValue(null);
             }
         });
         return mutableLiveData;

@@ -1,4 +1,4 @@
-package com.bboehnert.studipmensa;
+package com.bboehnert.studipmensa.view.login;
 
 import com.bboehnert.studipmensa.models.user.User;
 
