@@ -3,4 +3,5 @@
     <string name="password">Passwort</string>
     <string name="username">Benutzer</string>
     <string name="info_text">Um die Mensa App nutzen zu können müssen Sie ihre Zugangsdaten für "elearning.uni-oldenburg.de" eintragen.</string>
+    <string name="no_mensa_message">Kein Mensaplan für Tag gefunden!</string>
 </resources>

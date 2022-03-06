@@ -1,4 +1,4 @@
-package com.bboehnert.studipmensa.view;
+package com.bboehnert.studipmensa.view.mensa;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,22 +8,22 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import com.bboehnert.studipmensa.Contract;
+import com.bboehnert.studipmensa.models.mensa.FoodGroupDisplayable;
 import com.bboehnert.studipmensa.R;
-import com.bboehnert.studipmensa.entity.FoodItemDisplayable;
+import com.bboehnert.studipmensa.models.mensa.FoodItemDisplayable;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class CustomListAdapter extends BaseExpandableListAdapter {
+class CustomListAdapter extends BaseExpandableListAdapter {
 
-    private List<Contract.Model> listData;
+    private List<FoodGroupDisplayable> listData;
     private final Context context;
     private int selectedGroup = -1;
     private int selectedChildCounter = 0;
 
-    public CustomListAdapter(Context context, List<Contract.Model> listData) {
+    public CustomListAdapter(Context context, List<FoodGroupDisplayable> listData) {
         this.context = context;
         this.listData = listData;
     }
@@ -39,7 +39,7 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Contract.Model getGroup(int groupPosition) {
+    public FoodGroupDisplayable getGroup(int groupPosition) {
         return this.listData.get(groupPosition);
     }
 
@@ -79,7 +79,7 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
                              View convertView,
                              ViewGroup parent) {
 
-        Contract.Model location = getGroup(groupPosition);
+        FoodGroupDisplayable location = getGroup(groupPosition);
         if (convertView == null) {
 
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(
@@ -155,7 +155,7 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    public void setNewItems(List<Contract.Model> listData) {
+    public void setNewItems(List<FoodGroupDisplayable> listData) {
         // Inhalt leeren bei null
         if (listData == null) {
             this.listData.clear();
@@ -192,5 +192,4 @@ public class CustomListAdapter extends BaseExpandableListAdapter {
                 .setScale(3, RoundingMode.HALF_UP)
                 .doubleValue();
     }
-
 }

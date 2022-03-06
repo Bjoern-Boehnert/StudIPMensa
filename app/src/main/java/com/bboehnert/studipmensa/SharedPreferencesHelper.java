@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
-public class SharedPreferencesHelper implements LocalStorage {
+import com.bboehnert.studipmensa.R;
+
+public class SharedPreferencesHelper {
 
     private final Context context;
     private SharedPreferences sharedPref;
@@ -18,6 +20,7 @@ public class SharedPreferencesHelper implements LocalStorage {
         try {
 
             masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+
             sharedPref = EncryptedSharedPreferences.create(
                     "SharedPreferencesFile",
                     masterKeyAlias,
@@ -31,28 +34,24 @@ public class SharedPreferencesHelper implements LocalStorage {
         }
     }
 
-    @Override
     public String getPassword() {
         return sharedPref.getString(
                 context.getString(R.string.password),
                 null);
     }
 
-    @Override
     public String getUsername() {
         return sharedPref.getString(
                 context.getString(R.string.username),
                 null);
     }
 
-    @Override
     public void setPassword(String value) {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(context.getString(R.string.password), value);
         editor.apply();
     }
 
-    @Override
     public void setUsername(String value) {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(context.getString(R.string.username), value);
