@@ -17,11 +17,19 @@
         <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/layout_dialog.xml" value="0.25" />
         <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/list_group.xml" value="0.2836676217765043" />
         <entry key="..\:/Android_Studio_Apps/StudIPMensa/app/src/main/res/layout/list_item.xml" value="0.48109965635738833" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_mensaplan.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/drawer_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_expandablelist.xml" value="0.30344202898550726" />
+        <entry key="app/src/main/res/layout/fragment_nofood.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.30344202898550726" />
+        <entry key="app/src/main/res/layout/navigation_drawer.xml" value="0.30344202898550726" />
+        <entry key="app/src/main/res/menu/drawer_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
