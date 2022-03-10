@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:weightSum="1"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    tools:context=".view.mensa.FoodNavigationFragment">
+
+    <Button
+        android:id="@+id/previousButton"
+        android:textColor="@android:color/tab_indicator_text"
+        android:background="@drawable/navigation_button_border"
+        android:layout_weight="0.1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\u276e"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:layout_weight="0.7"
+        android:id="@+id/dateText"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Mittwoch: 31.08.2021" />
+
+    <Button
+        android:id="@+id/nextButton"
+        android:textColor="@android:color/tab_indicator_text"
+        android:background="@drawable/navigation_button_border"
+        android:layout_weight="0.1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\u276f"
+        android:textSize="30sp"/>
+
+    <Button
+        android:id="@+id/priceButton"
+        android:layout_marginStart="5dp"
+        android:textColor="@android:color/tab_indicator_text"
+        android:background="@drawable/navigation_button_border"
+        android:layout_weight="0.1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="€"
+        android:textSize="30sp"/>
+
+
+</LinearLayout>

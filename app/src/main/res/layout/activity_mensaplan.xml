@@ -74,6 +74,13 @@
 
     </LinearLayout>
 
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/fragment_foodNavigation"-->
+<!--        android:name="com.bboehnert.studipmensa.view.mensa.FoodNavigationFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        tools:layout="@layout/fragment_foodnavigation" />-->
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"

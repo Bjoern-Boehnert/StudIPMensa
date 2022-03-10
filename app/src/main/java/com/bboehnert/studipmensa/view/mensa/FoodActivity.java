@@ -1,5 +1,6 @@
 package com.bboehnert.studipmensa.view.mensa;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +13,6 @@ import androidx.lifecycle.Observer;
 
 import com.bboehnert.studipmensa.R;
 import com.bboehnert.studipmensa.models.mensa.FoodGroupDisplayable;
-import com.bboehnert.studipmensa.responses.MensaResponse;
 import com.bboehnert.studipmensa.viewModels.MensaViewModel;
 
 import java.text.SimpleDateFormat;
@@ -32,23 +32,26 @@ public class FoodActivity extends AppCompatActivity {
     private FoodListViewFragment foodlistFragment;
     private NoFoodFragment noFoodFragement;
 
-    private final Calendar calender = Calendar.getInstance();
-    private TextView currentDate;
-    private List<FoodGroupDisplayable> foodlist = new ArrayList<>();
-
     @Inject
     public MensaViewModel mensaViewModel;
+    private TextView currentDate;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mensaplan);
 
-        triggerDownloadRequest(0);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Bitte warten");
+        progressDialog.setCancelable(false);
+
+        triggerDownloadRequest();
 
         if (savedInstanceState == null) {
             foodlistFragment = new FoodListViewFragment();
             noFoodFragement = new NoFoodFragment();
+
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
                     .add(R.id.fragment_container_view, foodlistFragment, null)
@@ -58,12 +61,10 @@ public class FoodActivity extends AppCompatActivity {
         }
 
         currentDate = findViewById(R.id.dateText);
-
-        // Erstelle Download TimeStamp
         TextView timeStamp = findViewById(R.id.timeStamp);
         timeStamp.setText(String.format("DL: %s",
                 getDateString(
-                        calender.getTime(),
+                        mensaViewModel.setCalendar(0).getValue().getTime(),
                         "dd.MM.yyyy HH:mm"
                 )));
     }
@@ -83,67 +84,60 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     public void getPreviousDay(View view) {
-        triggerDownloadRequest(-1);
+        setCurrentDate(-1);
+        triggerDownloadRequest();
+
     }
 
     public void getNextDay(View view) {
-        triggerDownloadRequest(1);
+        setCurrentDate(1);
+        triggerDownloadRequest();
+    }
+
+    private void setCurrentDate(int add) {
+        mensaViewModel.setCalendar(add).observe(this, new Observer<Calendar>() {
+            @Override
+            public void onChanged(Calendar calendar) {
+                currentDate.setText(
+                        getDateString(
+                                calendar.getTime(),
+                                "EEEE \t dd.MM.yyyy"
+                        ));
+
+            }
+        });
     }
 
     private void displayFood(List<FoodGroupDisplayable> foodLocationsList) {
         foodlistFragment.setNewItems(foodLocationsList);
-        currentDate.setText(
-                getDateString(
-                        calender.getTime(),
-                        "EEEE \t dd.MM.yyyy"
-                ));
 
-        // Fragement tauschen
         switchFragment(noFoodFragement, foodlistFragment);
     }
 
     private void showNoMensaPlan(String message) {
         noFoodFragement.setText(message);
-        currentDate.setText(
-                getDateString(
-                        calender.getTime(),
-                        "EEEE \t dd.MM.yyyy"
-                ));
-        // Lade Fragment "Kein Mensaplan"
+
         switchFragment(foodlistFragment, noFoodFragement);
     }
 
-    private void triggerDownloadRequest(int add) {
-        calender.add(Calendar.DATE, add);
-        long day = getMensaPlanDay(calender.getTime());
-        getFood(day);
-    }
-
-    private void getFood(long day) {
-        this.mensaViewModel.getMensaMenu(day).observe(this, new Observer<MensaResponse>() {
+    private void triggerDownloadRequest() {
+        progressDialog.show();
+        mensaViewModel.getMensaMenu().observe(this, new Observer<List<FoodGroupDisplayable>>() {
             @Override
-            public void onChanged(MensaResponse mensaResponse) {
-
-                // Auch nochmal auf Login prüfen? Bei 401 zur Login Page?
-                if (mensaResponse == null) {
+            public void onChanged(List<FoodGroupDisplayable> foodGroupDisplayables) {
+                if (foodGroupDisplayables == null) {
                     showNoMensaPlan(getText(R.string.no_mensa_message).toString());
                 } else {
-                    //Mensaplan?
-                    foodlist.clear();
-                    foodlist.add(mensaResponse.getResponse().getUhlhornweg());
-                    foodlist.add(mensaResponse.getResponse().getWechloy());
-                    displayFood(foodlist);
+                    displayFood(foodGroupDisplayables);
                 }
+                progressDialog.dismiss();
             }
+
         });
     }
 
     public void getPrice(View view) {
         String priceText = String.format("Preis: %s €", this.foodlistFragment.getSelectionPrice());
         Toast.makeText(this, priceText, Toast.LENGTH_SHORT).show();
-    }
-
-    private long getMensaPlanDay(Date date) {
-        return date.getTime() / 1000;
     }
 }
