@@ -1,8 +1,8 @@
 package com.bboehnert.studipmensa.view.mensa;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,70 +10,74 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.bboehnert.studipmensa.DateFormatHelper;
+import com.bboehnert.studipmensa.MensaAction;
 import com.bboehnert.studipmensa.R;
 import com.bboehnert.studipmensa.models.mensa.FoodGroupDisplayable;
 import com.bboehnert.studipmensa.viewModels.MensaViewModel;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class FoodActivity extends AppCompatActivity {
 
-    private FoodListViewFragment foodlistFragment;
-    private NoFoodFragment noFoodFragement;
+    private FoodListViewFragment foodListFragment;
+    private NoFoodFragment noFoodFragment;
 
-    @Inject
-    public MensaViewModel mensaViewModel;
-    private TextView currentDate;
-    private ProgressDialog progressDialog;
+    private MensaViewModel mensaViewModel;
+    private Toast toast;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mensaViewModel = new ViewModelProvider(this).get(MensaViewModel.class);
+
         setContentView(R.layout.activity_mensaplan);
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Bitte warten");
-        progressDialog.setCancelable(false);
-
-        triggerDownloadRequest();
+        toast = Toast.makeText(this, null, Toast.LENGTH_SHORT);
 
         if (savedInstanceState == null) {
-            foodlistFragment = new FoodListViewFragment();
-            noFoodFragement = new NoFoodFragment();
+            foodListFragment = new FoodListViewFragment();
+            noFoodFragment = new NoFoodFragment();
 
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.fragment_container_view, foodlistFragment, null)
-                    .add(R.id.fragment_container_view, noFoodFragement, null)
-                    .hide(noFoodFragement)
+                    .add(R.id.fragment_container_view, foodListFragment, null)
+                    .add(R.id.fragment_container_view, noFoodFragment, null)
+                    .hide(noFoodFragment)
                     .commit();
         }
 
-        currentDate = findViewById(R.id.dateText);
+        String downloadDateString = DateFormatHelper.getDateString(
+                Calendar.getInstance().getTime(),
+                DateFormatHelper.DOWNLOAD_TIMESTAMP_FORMAT);
+
         TextView timeStamp = findViewById(R.id.timeStamp);
-        timeStamp.setText(String.format("DL: %s",
-                getDateString(
-                        mensaViewModel.setCalendar(0).getValue().getTime(),
-                        "dd.MM.yyyy HH:mm"
-                )));
+        timeStamp.setText(String.format("DL: %s", downloadDateString));
+
+        mensaViewModel.setCalendar(0);
+        mensaViewModel.getCalender().observe(this, new Observer<Calendar>() {
+            @Override
+            public void onChanged(Calendar calendar) {
+                triggerDownloadRequest();
+            }
+        });
+
+        mensaViewModel.getAction().observe(this, new Observer<MensaAction>() {
+            @Override
+            public void onChanged(MensaAction mensaAction) {
+                if (mensaAction == MensaAction.GET_PRICE) {
+                    showPrice();
+                }
+            }
+        });
+
     }
 
-    private String getDateString(Date date, String pattern) {
-        return new SimpleDateFormat(
-                pattern,
-                Locale.GERMANY).format(date);
-    }
 
     private void switchFragment(Fragment hide, Fragment show) {
         getSupportFragmentManager().beginTransaction()
@@ -83,45 +87,18 @@ public class FoodActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void getPreviousDay(View view) {
-        setCurrentDate(-1);
-        triggerDownloadRequest();
-
-    }
-
-    public void getNextDay(View view) {
-        setCurrentDate(1);
-        triggerDownloadRequest();
-    }
-
-    private void setCurrentDate(int add) {
-        mensaViewModel.setCalendar(add).observe(this, new Observer<Calendar>() {
-            @Override
-            public void onChanged(Calendar calendar) {
-                currentDate.setText(
-                        getDateString(
-                                calendar.getTime(),
-                                "EEEE \t dd.MM.yyyy"
-                        ));
-
-            }
-        });
-    }
 
     private void displayFood(List<FoodGroupDisplayable> foodLocationsList) {
-        foodlistFragment.setNewItems(foodLocationsList);
-
-        switchFragment(noFoodFragement, foodlistFragment);
+        foodListFragment.setNewItems(foodLocationsList);
+        switchFragment(noFoodFragment, foodListFragment);
     }
 
     private void showNoMensaPlan(String message) {
-        noFoodFragement.setText(message);
-
-        switchFragment(foodlistFragment, noFoodFragement);
+        noFoodFragment.setText(message);
+        switchFragment(foodListFragment, noFoodFragment);
     }
 
     private void triggerDownloadRequest() {
-        progressDialog.show();
         mensaViewModel.getMensaMenu().observe(this, new Observer<List<FoodGroupDisplayable>>() {
             @Override
             public void onChanged(List<FoodGroupDisplayable> foodGroupDisplayables) {
@@ -130,14 +107,17 @@ public class FoodActivity extends AppCompatActivity {
                 } else {
                     displayFood(foodGroupDisplayables);
                 }
-                progressDialog.dismiss();
             }
 
         });
     }
 
-    public void getPrice(View view) {
-        String priceText = String.format("Preis: %s €", this.foodlistFragment.getSelectionPrice());
-        Toast.makeText(this, priceText, Toast.LENGTH_SHORT).show();
+    private void showPrice() {
+        toast.cancel();
+        String priceText = String.format("Preis: %s €", this.foodListFragment.getSelectionPrice());
+
+        toast.setText(priceText);
+        toast.show();
     }
+
 }

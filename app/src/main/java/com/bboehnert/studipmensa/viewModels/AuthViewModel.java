@@ -9,6 +9,9 @@ import com.bboehnert.studipmensa.repositories.AuthRepository;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class AuthViewModel extends ViewModel {
 
     private final AuthRepository repository;

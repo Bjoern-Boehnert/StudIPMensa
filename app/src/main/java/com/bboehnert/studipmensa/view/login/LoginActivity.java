@@ -9,12 +9,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bboehnert.studipmensa.R;
 import com.bboehnert.studipmensa.SharedPreferencesHelper;
 import com.bboehnert.studipmensa.network.ConnectionHelper;
 import com.bboehnert.studipmensa.view.mensa.FoodActivity;
 import com.bboehnert.studipmensa.viewModels.AuthViewModel;
+import com.bboehnert.studipmensa.viewModels.MensaViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import javax.inject.Inject;
@@ -32,12 +34,12 @@ public class LoginActivity extends AppCompatActivity {
     @Inject
     public SharedPreferencesHelper prefs;
 
-    @Inject
-    public AuthViewModel authViewModel;
+    private AuthViewModel authViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         setContentView(R.layout.activity_main);
 
         usernameText = findViewById(R.id.usernameText);
