@@ -1,8 +1,6 @@
 package com.bboehnert.studipmensa.view.mensa;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +57,6 @@ public class FoodActivity extends AppCompatActivity {
         TextView timeStamp = findViewById(R.id.timeStamp);
         timeStamp.setText(String.format("DL: %s", downloadDateString));
 
-        mensaViewModel.setCalendar(0);
         mensaViewModel.getCalender().observe(this, new Observer<Calendar>() {
             @Override
             public void onChanged(Calendar calendar) {
@@ -78,7 +75,6 @@ public class FoodActivity extends AppCompatActivity {
 
     }
 
-
     private void switchFragment(Fragment hide, Fragment show) {
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
@@ -87,13 +83,13 @@ public class FoodActivity extends AppCompatActivity {
                 .commit();
     }
 
-
     private void displayFood(List<FoodGroupDisplayable> foodLocationsList) {
         foodListFragment.setNewItems(foodLocationsList);
         switchFragment(noFoodFragment, foodListFragment);
     }
 
     private void showNoMensaPlan(String message) {
+        foodListFragment.setNewItems(null);
         noFoodFragment.setText(message);
         switchFragment(foodListFragment, noFoodFragment);
     }
@@ -115,7 +111,6 @@ public class FoodActivity extends AppCompatActivity {
     private void showPrice() {
         toast.cancel();
         String priceText = String.format("Preis: %s €", this.foodListFragment.getSelectionPrice());
-
         toast.setText(priceText);
         toast.show();
     }

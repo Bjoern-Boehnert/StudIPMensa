@@ -25,8 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class FoodNavigationFragment extends Fragment {
 
-    private Button priceButton;
-
     private MensaViewModel viewModel;
 
 
@@ -38,6 +36,7 @@ public class FoodNavigationFragment extends Fragment {
         TextView dateView = v.findViewById(R.id.dateText);
 
         viewModel = new ViewModelProvider(getActivity()).get(MensaViewModel.class);
+        viewModel.setAction(MensaAction.GET_CURRENT_DAY);
         viewModel.getCalender().observe(getViewLifecycleOwner(), new Observer<Calendar>() {
             @Override
             public void onChanged(Calendar calendar) {
@@ -52,17 +51,17 @@ public class FoodNavigationFragment extends Fragment {
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.setCalendar(-1);
+                viewModel.setAction(MensaAction.GET_PREVIOUS_DAY);
             }
         });
         Button nextButton = v.findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.setCalendar(1);
+                viewModel.setAction(MensaAction.GET_NEXT_DAY);
             }
         });
-        priceButton = v.findViewById(R.id.priceButton);
+        Button priceButton = v.findViewById(R.id.priceButton);
         priceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

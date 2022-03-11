@@ -25,6 +25,7 @@ public class MensaViewModel extends ViewModel {
     private final MensaRepository repository;
     private final List<FoodGroupDisplayable> list;
     private final Calendar calendar;
+    private LiveData<List<FoodGroupDisplayable>> mutuableFood;
     private MutableLiveData<Calendar> mutuableDate;
     private MutableLiveData<MensaAction> mutuableAction;
 
@@ -35,12 +36,14 @@ public class MensaViewModel extends ViewModel {
         this.mutuableDate = new MutableLiveData<>();
         this.mutuableAction = new MutableLiveData<>();
         this.calendar = Calendar.getInstance();
+        this.mutuableFood = new MutableLiveData<>();
     }
 
-    public LiveData<List<FoodGroupDisplayable>> getMensaMenu() {
+    private void setMensaMenu() {
         long day = getMensaPlanDay(calendar.getTime());
         LiveData<MensaResponse> mutableLiveData = repository.getMensaOfDay(day);
-        return Transformations.map(mutableLiveData, input -> {
+
+        mutuableFood = Transformations.map(mutableLiveData, input -> {
             if (input == null) {
                 return null;
             } else {
@@ -52,8 +55,13 @@ public class MensaViewModel extends ViewModel {
         });
     }
 
-    public void setCalendar(int add) {
+    public LiveData<List<FoodGroupDisplayable>> getMensaMenu() {
+        return mutuableFood;
+    }
+
+    private void setCalendar(int add) {
         calendar.add(Calendar.DATE, add);
+        setMensaMenu();
         mutuableDate.setValue(calendar);
     }
 
@@ -62,7 +70,21 @@ public class MensaViewModel extends ViewModel {
     }
 
     public void setAction(MensaAction action) {
-        mutuableAction.setValue(action);
+
+        switch (action) {
+            case GET_NEXT_DAY:
+                setCalendar(1);
+                break;
+            case GET_CURRENT_DAY:
+                setCalendar(0);
+                break;
+            case GET_PREVIOUS_DAY:
+                setCalendar(-1);
+                break;
+            default:
+                mutuableAction.setValue(action);
+        }
+
     }
 
     public LiveData<MensaAction> getAction() {
