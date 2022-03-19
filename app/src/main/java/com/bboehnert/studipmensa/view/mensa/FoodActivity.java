@@ -60,10 +60,21 @@ public class FoodActivity extends AppCompatActivity {
         mensaViewModel.getCalender().observe(this, new Observer<Calendar>() {
             @Override
             public void onChanged(Calendar calendar) {
-                triggerDownloadRequest();
+                mensaViewModel.setMensaMenu();
             }
         });
 
+        mensaViewModel.getMensaMenu().observe(this, new Observer<List<FoodGroupDisplayable>>() {
+            @Override
+            public void onChanged(List<FoodGroupDisplayable> foodGroupDisplayables) {
+                if (foodGroupDisplayables == null) {
+                    showNoMensaPlan(getText(R.string.no_mensa_message).toString());
+                } else {
+                    displayFood(foodGroupDisplayables);
+                }
+            }
+
+        });
         mensaViewModel.getAction().observe(this, new Observer<MensaAction>() {
             @Override
             public void onChanged(MensaAction mensaAction) {
@@ -92,20 +103,6 @@ public class FoodActivity extends AppCompatActivity {
         foodListFragment.setNewItems(null);
         noFoodFragment.setText(message);
         switchFragment(foodListFragment, noFoodFragment);
-    }
-
-    private void triggerDownloadRequest() {
-        mensaViewModel.getMensaMenu().observe(this, new Observer<List<FoodGroupDisplayable>>() {
-            @Override
-            public void onChanged(List<FoodGroupDisplayable> foodGroupDisplayables) {
-                if (foodGroupDisplayables == null) {
-                    showNoMensaPlan(getText(R.string.no_mensa_message).toString());
-                } else {
-                    displayFood(foodGroupDisplayables);
-                }
-            }
-
-        });
     }
 
     private void showPrice() {

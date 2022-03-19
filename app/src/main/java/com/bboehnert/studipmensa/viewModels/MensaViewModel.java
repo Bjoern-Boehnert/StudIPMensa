@@ -23,36 +23,24 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class MensaViewModel extends ViewModel {
 
     private final MensaRepository repository;
-    private final List<FoodGroupDisplayable> list;
     private final Calendar calendar;
-    private LiveData<List<FoodGroupDisplayable>> mutuableFood;
-    private MutableLiveData<Calendar> mutuableDate;
-    private MutableLiveData<MensaAction> mutuableAction;
+    private final LiveData<List<FoodGroupDisplayable>> mutuableFood;
+    private final MutableLiveData<Calendar> mutuableDate;
+    private final MutableLiveData<MensaAction> mutuableAction;
 
     @Inject
     public MensaViewModel(MensaRepository repository) {
         this.repository = repository;
-        this.list = new ArrayList<>();
         this.mutuableDate = new MutableLiveData<>();
         this.mutuableAction = new MutableLiveData<>();
         this.calendar = Calendar.getInstance();
-        this.mutuableFood = new MutableLiveData<>();
+
+        this.mutuableFood = repository.getMensaOfDay();
     }
 
-    private void setMensaMenu() {
+    public void setMensaMenu() {
         long day = getMensaPlanDay(calendar.getTime());
-        LiveData<MensaResponse> mutableLiveData = repository.getMensaOfDay(day);
-
-        mutuableFood = Transformations.map(mutableLiveData, input -> {
-            if (input == null) {
-                return null;
-            } else {
-                list.clear();
-                list.add(input.getResponse().getWechloy());
-                list.add(input.getResponse().getUhlhornweg());
-                return list;
-            }
-        });
+        repository.setMensaOfDay(day);
     }
 
     public LiveData<List<FoodGroupDisplayable>> getMensaMenu() {
@@ -61,7 +49,6 @@ public class MensaViewModel extends ViewModel {
 
     private void setCalendar(int add) {
         calendar.add(Calendar.DATE, add);
-        setMensaMenu();
         mutuableDate.setValue(calendar);
     }
 
