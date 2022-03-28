@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mobile_navigation.xml"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/nav_login">
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.bboehnert.studipmensa.view.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/nav_mensaplan"
+        android:name="com.bboehnert.studipmensa.view.mensa.FoodFragment"
+        android:label="Mensaplan"
+        tools:layout="@layout/fragment_mensaplan" />
+
+</navigation>

@@ -11,10 +11,12 @@ public class MensaLocation {
     private FoodGroupEntity wechloy;
 
     public FoodGroupDisplayable getUhlhornweg() {
+        if(uhlhornweg == null) return null;
         return new FoodGroup(uhlhornweg, "Uhlhornweg");
     }
 
     public FoodGroupDisplayable getWechloy() {
+        if(wechloy == null) return null;
         return new FoodGroup(wechloy, "Wechloy");
     }
 }

@@ -2,21 +2,23 @@ package com.bboehnert.studipmensa.view.login;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bboehnert.studipmensa.R;
 import com.bboehnert.studipmensa.SharedPreferencesHelper;
 import com.bboehnert.studipmensa.network.ConnectionHelper;
-import com.bboehnert.studipmensa.view.mensa.FoodActivity;
 import com.bboehnert.studipmensa.viewModels.AuthViewModel;
-import com.bboehnert.studipmensa.viewModels.MensaViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import javax.inject.Inject;
@@ -24,7 +26,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class LoginActivity extends AppCompatActivity {
+public class LoginFragment extends Fragment {
 
     // Controls
     private TextInputEditText usernameText;
@@ -33,38 +35,45 @@ public class LoginActivity extends AppCompatActivity {
 
     @Inject
     public SharedPreferencesHelper prefs;
+    private AuthViewModel viewModel;
 
-    private AuthViewModel authViewModel;
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_login, container, false);
 
-        usernameText = findViewById(R.id.usernameText);
-        passwordText = findViewById(R.id.passwordText);
+        viewModel = new ViewModelProvider(getActivity()).get(AuthViewModel.class);
 
+        usernameText = v.findViewById(R.id.usernameText);
+        passwordText = v.findViewById(R.id.passwordText);
         usernameText.setText(prefs.getUsername());
         passwordText.setText(prefs.getPassword());
 
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Bitte warten");
         progressDialog.setCancelable(false);
+
+        Button loginButton = v.findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(v1 -> onLogin());
+
+        Button infoButton = v.findViewById(R.id.infoButton);
+        infoButton.setOnClickListener(v1 -> onInfo());
+
+        return v;
     }
 
-    public void onLogin(View view) {
+    private void onLogin() {
 
-        if (!ConnectionHelper.isNetworkConnected(this)) {
+        if (!ConnectionHelper.isNetworkConnected(getActivity())) {
             showToast("Internet nicht verbunden");
             return;
         }
         this.progressDialog.show();
 
-        authViewModel.login(
+        viewModel.login(
                 usernameText.getText().toString(),
                 passwordText.getText().toString()
-        ).observe(this, new Observer<LoginResult>() {
+        ).observe(getViewLifecycleOwner(), new Observer<LoginResult>() {
             @Override
             public void onChanged(LoginResult loginResult) {
                 progressDialog.dismiss();
@@ -83,23 +92,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void helpButtonClick(View view) {
-        loadHelpView();
+    private void onInfo() {
+        loadHelpView();        // Activity öffnen
+//        Intent intent = new Intent(LoginActivity.this, FoodActivity.class);
+//        startActivity(intent);
     }
 
     private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void loadMensaView() {
         // Activity öffnen
-        Intent intent = new Intent(LoginActivity.this, FoodActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(LoginActivity.this, FoodActivity.class);
+//        startActivity(intent);
     }
 
     private void loadHelpView() {
-        Dialog dialog = new Dialog(this);
+        Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.info);
         dialog.show();
     }
+
 }

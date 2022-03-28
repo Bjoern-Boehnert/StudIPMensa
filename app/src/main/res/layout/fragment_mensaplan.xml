@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
     android:orientation="vertical"
-    tools:context=".view.mensa.FoodActivity">
+    tools:context=".view.mensa.FoodFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="StudIP Mensa"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="50sp"
-        android:textStyle="bold" />
     <TextView
         android:id="@+id/timeStamp"
         android:layout_width="match_parent"
@@ -28,7 +19,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_foodNavigation"
         android:name="com.bboehnert.studipmensa.view.mensa.FoodNavigationFragment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_foodnavigation" />
 
@@ -36,6 +27,6 @@
         android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_expandablelist" />
+        tools:layout="@layout/fragment_mensaplan" />
 
 </LinearLayout>

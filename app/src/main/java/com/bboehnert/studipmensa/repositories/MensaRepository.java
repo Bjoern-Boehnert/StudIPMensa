@@ -35,10 +35,17 @@ public class MensaRepository {
             @Override
             public void onResponse(Call<MensaResponse> call, Response<MensaResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                        list.clear();
+                    list.clear();
+
+                    if (response.body().getResponse().getWechloy() != null) {
                         list.add(response.body().getResponse().getWechloy());
+                    }
+
+                    if (response.body().getResponse().getUhlhornweg() != null) {
                         list.add(response.body().getResponse().getUhlhornweg());
-                        mutableLiveData.setValue(list);
+                    }
+
+                    mutableLiveData.setValue(list);
                 } else {
                     mutableLiveData.setValue(null);
                 }
